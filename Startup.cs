@@ -1,3 +1,4 @@
+using LanzhouBeefNoodles.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,16 @@ namespace LanzhouBeefNoodles
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //依赖注入
+            //在每一次发起请求的时候，创建一个全新的面条仓库，请求结束后自动结束，
+            //优点：每次请求都会初始化一个全新的面条仓库，而不同的请求之间，面条仓库数据完全独立，互不影响
+            services.AddTransient<INoodleRepository, MockNoodleRepository>();
+            //在系统启动的时候，有且仅创建一个面条仓库，每次处理请求，都会使用同一个面条仓库实例
+            //优点：简单易用，便于管理，缺点：数据污染
+            //services.AddSingleton<INoodleRepository,MockNoodleRepository>();
+            //介于 AddTransient 和AddSingleton之间， 同时引入了事务管理Transaction 的概念
+            //将一系列请求或者操作，整合在同一个事务Transaction中，而这个事务有且仅创建一个面条实例，在事务结束后，系统会自动注销这个事务
+            //services.AddScoped<INoodleRepository,MockNoodleRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.请求通道

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LanzhouBeefNoodles.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace LanzhouBeefNoodles.Controllers
@@ -6,10 +7,16 @@ namespace LanzhouBeefNoodles.Controllers
     //[Route("[controller]/[action]")]
     public class HomeController : Controller
     {
-        //[Route("[action]")]
-        public String Index()
+        private INoodleRepository _noodleRepository;
+        public HomeController(INoodleRepository noodleRepository)
         {
-            return "Hello From Home";
+            _noodleRepository = noodleRepository;
+        }
+        //[Route("[action]")]
+        public IActionResult Index()
+        {
+            var noodles = _noodleRepository.GetAllNoodles();
+            return View(noodles);
         }
 
         //[Route("[action]")]
