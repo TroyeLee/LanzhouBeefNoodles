@@ -1,6 +1,8 @@
 ﻿using LanzhouBeefNoodles.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using LanzhouBeefNoodles.ViewModels;
+using System.Linq;
 
 namespace LanzhouBeefNoodles.Controllers
 {
@@ -8,15 +10,22 @@ namespace LanzhouBeefNoodles.Controllers
     public class HomeController : Controller
     {
         private INoodleRepository _noodleRepository;
-        public HomeController(INoodleRepository noodleRepository)
+        private IFeedbackRepository _feedbackRepository;
+        public HomeController(INoodleRepository noodleRepository , IFeedbackRepository feedbackRepository)
         {
             _noodleRepository = noodleRepository;
+            _feedbackRepository = feedbackRepository;
         }
         //[Route("[action]")]
         public IActionResult Index()
         {
-            var noodles = _noodleRepository.GetAllNoodles();
-            return View(noodles);
+            //var noodles = _noodleRepository.GetAllNoodles();
+            var viewModle = new HomeViewModel()
+            {
+                feedbacks = _feedbackRepository.GetAllFeedbacks().ToList(),
+                noodles = _noodleRepository.GetAllNoodles().ToList()
+            };
+            return View(viewModle);
         }
 
         //[Route("[action]")]

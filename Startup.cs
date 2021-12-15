@@ -29,6 +29,7 @@ namespace LanzhouBeefNoodles
             //介于 AddTransient 和AddSingleton之间， 同时引入了事务管理Transaction 的概念
             //将一系列请求或者操作，整合在同一个事务Transaction中，而这个事务有且仅创建一个面条实例，在事务结束后，系统会自动注销这个事务
             //services.AddScoped<INoodleRepository,MockNoodleRepository>();
+            services.AddTransient<IFeedbackRepository , MockFeedbackRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.请求通道
