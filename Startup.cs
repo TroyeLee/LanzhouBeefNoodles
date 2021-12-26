@@ -8,28 +8,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace LanzhouBeefNoodles
 {
     public class Startup
     {
+        //Entity Framwork : 10,使用Appsettings.json中的ConnectionString，需要加入一个对Configuration的调用方法
+        public IConfiguration Configuration { get; }
+        //Entity Framwork : 11,通过构建函数的参数，将configuration注入系统中
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         //注入依赖到容器中
         public void ConfigureServices(IServiceCollection services)
         {
+            //Entity Framwork : 7,我们还需要把数据库连接字符串“connectionstring”添加,数据库配置信息connectionstring 来自于AppSetting.json文件中。
+            //Entity Framwork : 12，将“connectionstring”改为调用Configuration.GetConnectionString("属性名")
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Entity Framwork : 8,接下来需要给项目重新配置这个文件Appsettings.json (右键点击项目名，添加，appsettings.json)
+            //Entity Framwork : 15，注入依赖,注释MockNoodleRepository
+            services.AddTransient<INoodleRepository, NoodleRepository>();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
+
             services.AddMvc();
             //依赖注入
             //在每一次发起请求的时候，创建一个全新的面条仓库，请求结束后自动结束，
             //优点：每次请求都会初始化一个全新的面条仓库，而不同的请求之间，面条仓库数据完全独立，互不影响
-            services.AddTransient<INoodleRepository, MockNoodleRepository>();
+            //services.AddTransient<INoodleRepository, MockNoodleRepository>();
             //在系统启动的时候，有且仅创建一个面条仓库，每次处理请求，都会使用同一个面条仓库实例
             //优点：简单易用，便于管理，缺点：数据污染
             //services.AddSingleton<INoodleRepository,MockNoodleRepository>();
             //介于 AddTransient 和AddSingleton之间， 同时引入了事务管理Transaction 的概念
             //将一系列请求或者操作，整合在同一个事务Transaction中，而这个事务有且仅创建一个面条实例，在事务结束后，系统会自动注销这个事务
             //services.AddScoped<INoodleRepository,MockNoodleRepository>();
-            services.AddTransient<IFeedbackRepository , MockFeedbackRepository>();
+            //services.AddTransient<IFeedbackRepository , MockFeedbackRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.请求通道
