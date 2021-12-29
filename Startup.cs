@@ -10,6 +10,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+//Identity 学习：2,引入框架
+using Microsoft.AspNetCore.Identity;
+
 
 namespace LanzhouBeefNoodles
 {
@@ -63,6 +66,10 @@ namespace LanzhouBeefNoodles
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //Identity 学习：3,在UseRouting前，加上身份验证中间件
+            app.UseAuthentication();
+
             //路由系统学习：没有启用路由，无论URL怎么变化，系统始终执行App.Run中间件里的代码，输出Hello World
             //app.Run(async (context) =>
             //{
