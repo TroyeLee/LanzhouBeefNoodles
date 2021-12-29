@@ -63,14 +63,20 @@ namespace LanzhouBeefNoodles
             {
                 app.UseDeveloperExceptionPage();
             }
-            //没有启用路由，无论URL怎么变化，系统始终执行App.Run中间件里的代码，输出Hello World
+            //路由系统学习：没有启用路由，无论URL怎么变化，系统始终执行App.Run中间件里的代码，输出Hello World
             //app.Run(async (context) =>
             //{
             //    await context.Response.WriteAsync("Hello World!");
             //});
 
             app.UseRouting();
+            
+            //View添加Style学习：app.UseEndpoints中间件中定义了整个网站的路由系统，MVC路由是由Controller控制的，而URL只会映射给控制器Controller，前端的
+            //静态文件，比如说CSS文件、图片文件、音频文件没有自己对应的Controller，不会与任何路由进行匹配，所以所有的静态文件都找不到
+            //所以需要添加服务静态文件的中间件app.UseStaticFiles
+            app.UseStaticFiles();
 
+            //路由系统学习
             app.UseEndpoints(endpoints =>
             {
                 //传统路由

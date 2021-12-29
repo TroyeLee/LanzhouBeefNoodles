@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+//Identity框架学习：1，引入库Identity
+using Microsoft.AspNetCore.Identity;
+//Identity框架学习：2，添加库，引入库
 
 namespace LanzhouBeefNoodles.Models
 {

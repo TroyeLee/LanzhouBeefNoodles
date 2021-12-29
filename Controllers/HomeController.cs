@@ -33,5 +33,12 @@ namespace LanzhouBeefNoodles.Controllers
         {
             return "Hello From About";
         }
+
+        //View学习：添加商品详情页面
+        public IActionResult Detail(int id)
+        {
+            var noodle = _noodleRepository.GetNoodleById(id);
+            return View(noodle);
+        }
     }
 }
