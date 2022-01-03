@@ -12,6 +12,7 @@ namespace LanzhouBeefNoodles.Models
         public void AddFeedback(Feedback feedback)
         {
             _appDbContext.Add<Feedback>(feedback);
+            _appDbContext.SaveChanges();
         }
 
         public IEnumerable<Feedback> GetAllFeedbacks()

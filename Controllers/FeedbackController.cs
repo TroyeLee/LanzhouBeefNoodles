@@ -1,8 +1,12 @@
 ﻿using LanzhouBeefNoodles.Models;
 using Microsoft.AspNetCore.Mvc;
+//添加框架引用
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace LanzhouBeefNoodles.Controllers
 {
+    [Authorize]
     public class FeedbackController : Controller
     {
         private IFeedbackRepository _feeedbackRepository;

@@ -77,6 +77,9 @@ namespace LanzhouBeefNoodles
             //});
 
             app.UseRouting();
+
+            //Identity 学习：添加用户授权中间件
+            app.UseAuthorization();
             
             //View添加Style学习：app.UseEndpoints中间件中定义了整个网站的路由系统，MVC路由是由Controller控制的，而URL只会映射给控制器Controller，前端的
             //静态文件，比如说CSS文件、图片文件、音频文件没有自己对应的Controller，不会与任何路由进行匹配，所以所有的静态文件都找不到
@@ -106,6 +109,9 @@ namespace LanzhouBeefNoodles
                 //{
                 //    await context.Response.WriteAsync("Hello World!");
                 //});
+
+                //Identity 学习：添加对Razor页面路由的支持
+                endpoints.MapRazorPages();
             });
         }
     }
